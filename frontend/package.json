@@ -1,0 +1,9 @@
+{
+  "name": "campusfind-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CampusFind — College Lost and Found Management System (Frontend)",
+  "scripts": {
+    "build": "node build-env.js"
+  }
+}

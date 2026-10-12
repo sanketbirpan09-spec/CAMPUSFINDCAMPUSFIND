@@ -1,0 +1,53 @@
+# Compiled Java artifacts & Maven build output
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE and Editor Files
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.temp
+
+# Runtime Logs
+*.log
+logs/
+
+# Uploaded User Files (Do not commit user-uploaded images or documents to repo)
+uploads/items/*
+!uploads/items/.gitkeep
+uploads/temp/*
+
+# Environment variables & local secrets
+.env
+.env.local
+.env.*.local
+application-local.properties
+application-dev.properties
+
+# Local tools, scratch files & test scripts
+.tools/
+scratch/
+test_output/
+*.pyc
+__pycache__/
