@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report an Item — CampusFind</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔍</text></svg>">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="/index.html" class="brand-logo">
+                <div class="brand-icon">🔍</div>
+                <span>CampusFind</span>
+            </a>
+            <div class="nav-actions" id="nav-auth-actions"></div>
+        </div>
+    </header>
+
+    <!-- Main Report Page -->
+    <main class="container" style="max-width: 760px; padding: 40px 20px 80px;">
+        <div style="text-align: center; margin-bottom: 32px;">
+            <span class="hero-pill">Campus Incident Report</span>
+            <h1 style="font-size: 2.2rem; margin-top: 8px;">Report a Lost or Found Item</h1>
+            <p style="color: var(--text-muted); font-size: 1rem; margin-top: 6px;">
+                Fill out the specifics to alert the campus community immediately.
+            </p>
+        </div>
+
+        <div class="search-box-card" style="padding: 36px;">
+            <div id="form-alert" class="error-text" style="background:#FEE2E2; border:1px solid #FECACA; padding:12px; border-radius:var(--radius-md); margin-bottom:20px; text-align:center;"></div>
+
+            <form id="report-form" enctype="multipart/form-data">
+                <!-- Status / Type Selection -->
+                <div class="form-group">
+                    <label class="form-label">Report Type</label>
+                    <div style="display: flex; gap: 16px;">
+                        <label style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border: 2px solid var(--border-color); border-radius: var(--radius-md); cursor: pointer; font-weight: 700; transition: var(--transition);" id="type-label-lost">
+                            <input type="radio" name="type" value="LOST" checked style="accent-color: #EF4444;">
+                            <span style="color: #DC2626;">📢 I Lost an Item</span>
+                        </label>
+                        <label style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border: 2px solid var(--border-color); border-radius: var(--radius-md); cursor: pointer; font-weight: 700; transition: var(--transition);" id="type-label-found">
+                            <input type="radio" name="type" value="FOUND" style="accent-color: #10B981;">
+                            <span style="color: #059669;">🤝 I Found an Item</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Title -->
+                <div class="form-group">
+                    <label class="form-label" for="title">Item Name / Title *</label>
+                    <input type="text" id="title" name="title" class="form-control" placeholder="e.g. Apple AirPods Pro (2nd Gen) with blue case" required minlength="2" maxlength="150">
+                </div>
+
+                <!-- Category & Date -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="category">Category *</label>
+                        <select id="category" name="category" class="form-control" required>
+                            <option value="">Select Category</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="ID & Cards">ID &amp; Cards</option>
+                            <option value="Books & Notes">Books &amp; Notes</option>
+                            <option value="Keys & Wallets">Keys &amp; Wallets</option>
+                            <option value="Clothing & Accessories">Clothing &amp; Accessories</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="itemDate">Date of Incident *</label>
+                        <input type="date" id="itemDate" name="itemDate" class="form-control" required>
+                    </div>
+                </div>
+
+                <!-- Campus Location -->
+                <div class="form-group">
+                    <label class="form-label" for="location">Campus Location *</label>
+                    <input type="text" id="location" name="location" class="form-control" placeholder="e.g. Central Library, 2nd Floor Quiet Study Area" required minlength="2" maxlength="150">
+                    <span class="form-help">Specify building, room number, or landmark where it was lost/found.</span>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label class="form-label" for="description">Detailed Description *</label>
+                    <textarea id="description" name="description" class="form-control" placeholder="Include distinctive features, brand, color, stickers, model, or condition..." required minlength="5" maxlength="2000"></textarea>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="form-group">
+                    <label class="form-label" for="contactInfo">Contact Information *</label>
+                    <input type="text" id="contactInfo" name="contactInfo" class="form-control" placeholder="e.g. alex.m@college.edu or WhatsApp 555-0142" required minlength="3" maxlength="255">
+                    <span class="form-help">How students can reach you safely to coordinate return.</span>
+                </div>
+
+                <!-- Photo Upload -->
+                <div class="form-group">
+                    <label class="form-label">Item Photograph (Optional)</label>
+                    <div style="border: 2px dashed var(--lavender-border); border-radius: var(--radius-md); padding: 24px; text-align: center; background: var(--bg-page); cursor: pointer;" onclick="document.getElementById('image-input').click()">
+                        <div id="upload-prompt">
+                            <span style="font-size: 2rem;">📷</span>
+                            <p style="font-weight: 600; color: var(--text-main); margin-top: 6px;">Click or drag an image here to upload</p>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Max 5MB (JPG, PNG, WebP)</span>
+                        </div>
+                        <div id="image-preview-container" style="display:none; position:relative; max-width:240px; margin:0 auto;">
+                            <img id="image-preview" src="" alt="Item Preview" style="width:100%; border-radius:var(--radius-md); box-shadow:var(--shadow-md);">
+                            <button type="button" onclick="clearImagePreview(event)" class="btn btn-danger btn-sm" style="position:absolute; top:-10px; right:-10px; border-radius:50%; width:28px; height:28px; padding:0;">&times;</button>
+                        </div>
+                    </div>
+                    <input type="file" id="image-input" name="image" accept="image/jpeg,image/png,image/webp" style="display:none;" onchange="handleImageSelect(event)">
+                </div>
+
+                <!-- Submit Button -->
+                <div style="margin-top: 30px;">
+                    <button type="submit" id="submit-btn" class="btn btn-primary btn-lg" style="width: 100%;">
+                        Submit Official Report
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check authentication
+            const user = await api.getCurrentUser();
+            if (!user) {
+                window.location.href = '/login.html?redirect=/report-item.html';
+                return;
+            }
+
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('itemDate').value = today;
+
+            // Pre-select type from URL param if available
+            const urlParams = new URLSearchParams(window.location.search);
+            const typeParam = urlParams.get('type');
+            if (typeParam && (typeParam.toUpperCase() === 'LOST' || typeParam.toUpperCase() === 'FOUND')) {
+                const radio = document.querySelector(`input[name="type"][value="${typeParam.toUpperCase()}"]`);
+                if (radio) radio.checked = true;
+            }
+
+            // Pre-fill contact info if available in user profile
+            if (user.phone) {
+                document.getElementById('contactInfo').value = `${user.email} / ${user.phone}`;
+            } else {
+                document.getElementById('contactInfo').value = user.email;
+            }
+        });
+
+        function handleImageSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                api.showToast('File size must be under 5MB', 'error');
+                event.target.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('image-preview').src = e.target.result;
+                document.getElementById('image-preview-container').style.display = 'block';
+                document.getElementById('upload-prompt').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearImagePreview(event) {
+            event.stopPropagation();
+            document.getElementById('image-input').value = '';
+            document.getElementById('image-preview').src = '';
+            document.getElementById('image-preview-container').style.display = 'none';
+            document.getElementById('upload-prompt').style.display = 'block';
+        }
+
+        document.getElementById('report-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            const alertBox = document.getElementById('form-alert');
+            const submitBtn = document.getElementById('submit-btn');
+
+            alertBox.classList.remove('visible');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting Report...';
+
+            try {
+                const res = await api.postForm('/api/items/report', formData);
+                if (res && res.success) {
+                    api.showToast('Report created successfully!', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/my-reports.html';
+                    }, 800);
+                } else {
+                    throw new Error(res.message || 'Failed to submit report');
+                }
+            } catch (err) {
+                alertBox.textContent = err.message || 'Submission error. Please verify input fields.';
+                alertBox.classList.add('visible');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Official Report';
+            }
+        });
+    </script>
+</body>
+</html>

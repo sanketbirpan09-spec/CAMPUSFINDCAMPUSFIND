@@ -1,0 +1,10 @@
+target/
+frontend/
+.git/
+.gitignore
+*.log
+.DS_Store
+.idea/
+*.iml
+.vscode/
+uploads/*

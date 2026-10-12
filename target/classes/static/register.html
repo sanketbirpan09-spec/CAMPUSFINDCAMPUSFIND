@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up — CampusFind</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔍</text></svg>">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="/index.html" class="brand-logo">
+                <div class="brand-icon">🔍</div>
+                <span>CampusFind</span>
+            </a>
+            <div class="nav-actions">
+                <a href="/login.html" class="btn btn-outline btn-sm">Already Registered? Log In</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Register Form -->
+    <main class="auth-page">
+        <div class="auth-card" style="max-width: 520px;">
+            <div class="auth-header">
+                <h2>Create Student Account</h2>
+                <p>Join the CampusFind network to report and recover lost items</p>
+            </div>
+
+            <div id="register-alert" class="error-text" style="background:#FEE2E2; border:1px solid #FECACA; padding:12px; border-radius:var(--radius-md); margin-bottom:20px; text-align:center;"></div>
+
+            <form id="register-form">
+                <div class="form-group">
+                    <label class="form-label" for="full-name">Full Name</label>
+                    <input type="text" id="full-name" class="form-control" placeholder="e.g. Alex Morgan" required minlength="2">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">Campus Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="alex@campusfind.edu" required autocomplete="email">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" id="password" class="form-control" placeholder="Min. 6 characters" required minlength="6" autocomplete="new-password">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" class="form-control" placeholder="Repeat password" required minlength="6" autocomplete="new-password">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="phone">Phone / WhatsApp (Optional)</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="+1-555-0123">
+                    <span class="form-help">Used to help other students get in touch regarding found items</span>
+                </div>
+
+                <button type="submit" id="submit-btn" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem; margin-top:10px;">
+                    Create Account &amp; Log In
+                </button>
+            </form>
+
+            <div style="text-align:center; margin-top:24px; font-size:0.92rem; color:var(--text-muted);">
+                Already have an account? <a href="/login.html" style="font-weight:700;">Sign in here</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/api.js"></script>
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById('full-name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const phone = document.getElementById('phone').value.trim();
+
+            const alertBox = document.getElementById('register-alert');
+            const submitBtn = document.getElementById('submit-btn');
+
+            alertBox.classList.remove('visible');
+
+            if (password !== confirmPassword) {
+                alertBox.textContent = 'Passwords do not match. Please verify.';
+                alertBox.classList.add('visible');
+                return;
+            }
+
+            if (password.length < 6) {
+                alertBox.textContent = 'Password must be at least 6 characters long.';
+                alertBox.classList.add('visible');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Creating Account...';
+
+            try {
+                const res = await api.post('/api/auth/register', {
+                    fullName,
+                    email,
+                    password,
+                    confirmPassword,
+                    phone
+                });
+
+                if (res && res.success) {
+                    api.showToast('Account created successfully! Auto-logging in...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/index.html';
+                    }, 800);
+                } else {
+                    throw new Error(res.message || 'Registration failed');
+                }
+            } catch (err) {
+                alertBox.textContent = err.message || 'Failed to register account';
+                alertBox.classList.add('visible');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Create Account & Log In';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+# ==============================================================================
+# CampusFind Application Configuration Template
+# Copy this file to src/main/resources/application.properties or set Environment Variables
+# ==============================================================================
+
+server.port=8080
+server.servlet.session.timeout=30m
+server.servlet.session.cookie.http-only=true
+server.servlet.session.cookie.same-site=lax
+server.error.include-message=always
+server.error.include-binding-errors=always
+
+spring.application.name=campusfind
+
+# ------------------------------------------------------------------------------
+# MySQL Database Connection
+# Environment variables: DB_URL, DB_USERNAME, DB_PASSWORD
+# ------------------------------------------------------------------------------
+spring.datasource.url=${DB_URL:jdbc:mysql://localhost:3306/campusfind_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+spring.datasource.username=${DB_USERNAME:root}
+spring.datasource.password=${DB_PASSWORD:your_mysql_password_here}
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# ------------------------------------------------------------------------------
+# SQL Initialization
+# ------------------------------------------------------------------------------
+spring.sql.init.mode=always
+spring.sql.init.continue-on-error=true
+
+# ------------------------------------------------------------------------------
+# File Upload Configuration
+# ------------------------------------------------------------------------------
+spring.servlet.multipart.enabled=true
+spring.servlet.multipart.max-file-size=5MB
+spring.servlet.multipart.max-request-size=5MB
+app.upload.dir=${UPLOAD_DIR:uploads}
+
+# ------------------------------------------------------------------------------
+# SMTP Mail Configuration
+# Set MAIL_ENABLED=true and supply username/app password if using Gmail / SMTP
+# If MAIL_ENABLED=false, the system seamlessly logs reset tokens to console
+# ------------------------------------------------------------------------------
+spring.mail.host=${MAIL_HOST:smtp.gmail.com}
+spring.mail.port=${MAIL_PORT:587}
+spring.mail.username=${MAIL_USERNAME:}
+spring.mail.password=${MAIL_PASSWORD:}
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+app.mail.enabled=${MAIL_ENABLED:false}
+app.dev-mode.log-reset-tokens=true
