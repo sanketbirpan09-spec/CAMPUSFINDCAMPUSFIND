@@ -48,7 +48,24 @@ public class DataInitializer implements CommandLineRunner {
             return saved;
         });
 
-        // 2. Seed Sample Student if not present
+        // 2. Ensure Website Owner / Administrator (Sanket Birpan)
+        userRepository.findByEmail("sanketbirpan09@gmail.com").ifPresentOrElse(owner -> {
+            if (!"ROLE_ADMIN".equals(owner.getRole())) {
+                userRepository.updateRole(owner.getId(), "ROLE_ADMIN");
+                logger.info("Updated owner Sanket Birpan to ROLE_ADMIN: sanketbirpan09@gmail.com");
+            }
+        }, () -> {
+            User owner = new User();
+            owner.setFullName("Sanket Birpan (Owner / Admin)");
+            owner.setEmail("sanketbirpan09@gmail.com");
+            owner.setPasswordHash(passwordEncoder.encode("Admin@123"));
+            owner.setRole("ROLE_ADMIN");
+            owner.setPhone("+91-9876543210");
+            userRepository.save(owner);
+            logger.info("Initialized website owner: sanketbirpan09@gmail.com with ROLE_ADMIN");
+        });
+
+        // 3. Seed Sample Student if not present
         User student = userRepository.findByEmail("student@campusfind.edu").orElseGet(() -> {
             User newStudent = new User();
             newStudent.setFullName("Alex Morgan (Student)");

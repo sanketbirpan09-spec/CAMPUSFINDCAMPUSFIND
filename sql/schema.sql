@@ -71,3 +71,9 @@ CREATE TABLE IF NOT EXISTS admin_audit_logs (
     INDEX idx_audit_admin (admin_id),
     INDEX idx_audit_created_at (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Initial Seed: Website Owner & Administrator (Sanket Birpan)
+INSERT INTO users (full_name, email, password_hash, role, phone)
+VALUES ('Sanket Birpan (Owner / Admin)', 'sanketbirpan09@gmail.com', '$2a$10$LUMlb7Lj1EMKDXBT2D6tZOJFnsVBYKmVFqc/SCsKJu6lDQGWMnfaO', 'ROLE_ADMIN', '+91-9876543210')
+ON DUPLICATE KEY UPDATE role = 'ROLE_ADMIN';
+

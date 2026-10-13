@@ -100,6 +100,11 @@ public class UserRepository {
         return count != null ? count : 0L;
     }
 
+    public void updateRole(Long userId, String role) {
+        String sql = "UPDATE users SET role = ? WHERE id = ?";
+        jdbcTemplate.update(sql, role, userId);
+    }
+
     public List<User> findAll() {
         String sql = "SELECT * FROM users ORDER BY created_at DESC";
         return jdbcTemplate.query(sql, userRowMapper);
