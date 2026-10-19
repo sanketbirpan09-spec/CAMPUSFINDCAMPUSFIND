@@ -129,5 +129,12 @@ public class ItemController {
         if (auth == null || !auth.isAuthenticated()) return false;
         return auth.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-    }
+
+            }
+@RestController
+@RequestMapping("/api")
+@CrossOrigin(origins = "*") // Allows your Vercel frontend to make requests
+public class ItemController {
+    // ...
 }
+        }
